@@ -7,8 +7,12 @@
     "dev": "ts-node-dev --respawn --transpile-only --poll src/server.ts",
     "prod": "NODE_ENV=production node ./dist/server.js",
     "build": "tsc",
-    "docker:build": "make build",
-    "docker:run": "make run"
+    "d:pull": "make pull",
+    "d:build": "make build",
+    "d:run": "make run",
+    "d:stop": "make stop",
+    "d:push": "make push",
+    "d:clean": "make stop"
   },
   "keywords": [],
   "author": "",
