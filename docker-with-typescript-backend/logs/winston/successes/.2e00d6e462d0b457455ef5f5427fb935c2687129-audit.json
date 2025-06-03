@@ -1,0 +1,35 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "/home/sajib/Code/ph-docker/docker-with-typescript-backend/logs/winston/successes/.2e00d6e462d0b457455ef5f5427fb935c2687129-audit.json",
+    "files": [
+        {
+            "date": 1748914659858,
+            "name": "/home/sajib/Code/ph-docker/docker-with-typescript-backend/logs/winston/successes/docker-2025-06-03-07-37-39-success.log",
+            "hash": "3fc522f7c88548d224c63b495cf3edaeffab9ef7055026d04faf0e77316e48d4"
+        },
+        {
+            "date": 1748915125622,
+            "name": "/home/sajib/Code/ph-docker/docker-with-typescript-backend/logs/winston/successes/docker-2025-06-03-07-45-25-success.log",
+            "hash": "5f2849c0aa26996e5863222f3e8bd1594f3883f916874b4358f8019f667322d4"
+        },
+        {
+            "date": 1748915163954,
+            "name": "/home/sajib/Code/ph-docker/docker-with-typescript-backend/logs/winston/successes/docker-2025-06-03-07-46-03-success.log",
+            "hash": "e634688520ae599c0b804ec3601ab0f429f3f999d8f52dfa0289f13100d79fc2"
+        },
+        {
+            "date": 1748915238190,
+            "name": "/home/sajib/Code/ph-docker/docker-with-typescript-backend/logs/winston/successes/docker-2025-06-03-07-47-18-success.log",
+            "hash": "ebcf24a5c109585f18249cd6f1fe74acf978c70a9dfc4853c3cb244de146c31b"
+        },
+        {
+            "date": 1748915303412,
+            "name": "/home/sajib/Code/ph-docker/docker-with-typescript-backend/logs/winston/successes/docker-2025-06-03-07-48-23-success.log",
+            "hash": "6b80b282fdd5a362e0cdd5388e07346137a3f3f78540f621f52215f6009604ab"
+        }
+    ],
+    "hashType": "sha256"
+}

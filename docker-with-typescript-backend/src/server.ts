@@ -1,15 +1,21 @@
+import dotenv from "dotenv";
 import { Server } from "http";
 import app from "./app";
+import { errorLogger, logger } from "./app/helpers/logger";
+
+dotenv.config({ path: ".env" });
 
 let server: Server;
 
 async function main() {
   try {
-    server = app.listen(5000, () => {
-      console.log(`app is listening on port 5000`);
+    server = app.listen(process.env.PORT, () => {
+      console.log(`app is listening on port ${process.env.PORT}`);
+      logger.info(`app is listening on port ${process.env.PORT}`);
     });
   } catch (err) {
     console.log(err);
+    errorLogger.error(err);
   }
 }
 
