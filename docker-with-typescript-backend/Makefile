@@ -1,10 +1,11 @@
-# === Build & Push ===
-build-dev:
+# === Build ===
+build-latest:
 	docker build -t shahadathhs/my-ts-app:latest .
 
 build-prod:
 	docker build -t shahadathhs/my-ts-app:prod --target=production .
 
+# === Push ===
 push-latest:
 	docker push shahadathhs/my-ts-app:latest
 
@@ -12,57 +13,104 @@ push-prod:
 	docker push shahadathhs/my-ts-app:prod
 
 # === Run ===
-run-dev:
-	docker run --env-file .env -p 5000:3000 --name ts-app-container shahadathhs/my-ts-app:latest
+run-latest:
+	docker run --env-file .env -p 5000:3000 --name ts-app-container-latest shahadathhs/my-ts-app:latest
 
-run-temp:
-	docker run --rm --env-file .env -p 5000:3000 --name ts-app-container shahadathhs/my-ts-app:latest
+run-prod:
+	docker run --env-file .env -p 5000:3000 --name ts-app-container-prod shahadathhs/my-ts-app:prod
 
-# === Start & Stop ===
-start-default:
-	docker start ts-app-container
+run-temp-latest:
+	docker run --rm --env-file .env -p 5000:3000 --name ts-app-container-latest shahadathhs/my-ts-app:latest
 
-start-attached:
-	docker start -a ts-app-container
+run-temp-prod:
+	docker run --rm --env-file .env -p 5000:3000 --name ts-app-container-prod shahadathhs/my-ts-app:prod
 
-stop-default:
-	docker stop ts-app-container
+# === Start ===
+start-latest:
+	docker start ts-app-container-latest
 
-restart-default:
-	docker stop ts-app-container && docker start -a ts-app-container
+start-prod:
+	docker start ts-app-container-prod
 
-# === Container Maintenance ===
-remove-container:
-	docker rm ts-app-container
+start-attached-latest:
+	docker start -a ts-app-container-latest
 
-remove-image:
+start-attached-prod:
+	docker start -a ts-app-container-prod
+
+# === Stop ===
+stop-latest:
+	docker stop ts-app-container-latest
+
+stop-prod:
+	docker stop ts-app-container-prod
+
+# === Restart ===
+restart-latest:
+	docker stop ts-app-container-latest || true
+	docker start -a ts-app-container-latest
+
+restart-prod:
+	docker stop ts-app-container-prod || true
+	docker start -a ts-app-container-prod
+
+# === Remove Containers ===
+remove-container-latest:
+	docker rm ts-app-container-latest
+
+remove-container-prod:
+	docker rm ts-app-container-prod
+
+# === Remove Images ===
+remove-image-latest:
 	docker rmi shahadathhs/my-ts-app:latest
 
-prune-all:
-	docker container prune -f
-	docker image prune -f
+remove-image-prod:
+	docker rmi shahadathhs/my-ts-app:prod
 
-# === Dev Utilities ===
-rebuild-dev:
-	make stop-default
-	make remove-container
-	make build-dev
-	make run-dev
+# === Rebuild ===
+rebuild-latest:
+	make stop-latest
+	make remove-container-latest
+	make build-latest
+	make run-latest
 
-logs-follow:
-	docker logs -f ts-app-container
+rebuild-prod:
+	make stop-prod
+	make remove-container-prod
+	make build-prod
+	make run-prod
 
-exec-shell:
-	docker exec -it ts-app-container sh
+# === Logs ===
+logs-follow-latest:
+	docker logs -f ts-app-container-latest
 
+logs-follow-prod:
+	docker logs -f ts-app-container-prod
+
+# === Exec ===
+exec-shell-latest:
+	docker exec -it ts-app-container-latest sh
+
+exec-shell-prod:
+	docker exec -it ts-app-container-prod sh
+
+# === Env Check ===
 check-env:
 	@echo "Printing .env variables:"
 	@cat .env
 
-# === Clean Everything ===
+# === Prune & Clean ===
+prune-all:
+	docker container prune -f
+	docker image prune -f
+
 clean-hard:
-	docker stop ts-app-container || true
-	docker rm ts-app-container || true
-	docker rmi shahadathhs/my-ts-app:latest || true
+	docker stop ts-app-container-latest
+	docker stop ts-app-container-prod
+	docker rm ts-app-container-latest
+	docker rm ts-app-container-prod
+	docker rmi shahadathhs/my-ts-app:latest
+	docker rmi shahadathhs/my-ts-app:prod
 	docker container prune -f
 	docker image prune -f
