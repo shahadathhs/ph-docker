@@ -32,7 +32,7 @@ app.get("/error", (req: Request, res: Response) => {
 });
 
 //Logger Routes
-app.use("/api", appRoutes);
+app.use("/", appRoutes);
 
 // Error handler
 app.use((err: Error, req: Request, res: Response, next: any) => {

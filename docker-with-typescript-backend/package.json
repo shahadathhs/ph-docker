@@ -6,13 +6,7 @@
     "start": "node ./dist/server.js",
     "dev": "ts-node-dev --respawn --transpile-only --poll src/server.ts",
     "prod": "NODE_ENV=production node ./dist/server.js",
-    "build": "tsc",
-    "d:pull": "make pull",
-    "d:build": "make build",
-    "d:run": "make run",
-    "d:stop": "make stop",
-    "d:push": "make push",
-    "d:clean": "make stop"
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
