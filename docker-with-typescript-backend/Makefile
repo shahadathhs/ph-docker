@@ -12,18 +12,45 @@ push-latest:
 push-prod:
 	docker push shahadathhs/my-ts-app:prod
 
-# === Run ===
+# === Volume: Create ===
+create-volume-latest:
+	docker volume create ts-app-logs-latest
+
+create-volume-prod:
+	docker volume create ts-app-logs-prod
+
+# === Volume: Remove ===
+remove-volume-latest:
+	docker volume rm ts-app-logs-latest
+
+remove-volume-prod:
+	docker volume rm ts-app-logs-prod
+
+# === Run (Bind Mount) ===
 run-latest:
-	docker run --env-file .env -p 5000:3000 --name ts-app-container-latest shahadathhs/my-ts-app:latest
+	docker run --env-file .env -v "$$(pwd)/logs:/app/logs" -p 5000:3000 --name ts-app-container-latest shahadathhs/my-ts-app:latest
 
 run-prod:
-	docker run --env-file .env -p 5000:3000 --name ts-app-container-prod shahadathhs/my-ts-app:prod
+	docker run --env-file .env -v "$$(pwd)/logs:/app/logs" -p 5000:3000 --name ts-app-container-prod shahadathhs/my-ts-app:prod
 
 run-temp-latest:
-	docker run --rm --env-file .env -p 5000:3000 --name ts-app-container-latest shahadathhs/my-ts-app:latest
+	docker run --rm --env-file -v "$$(pwd)/logs:/app/logs" .env -p 5000:3000 --name ts-app-container-latest shahadathhs/my-ts-app:latest
 
 run-temp-prod:
-	docker run --rm --env-file .env -p 5000:3000 --name ts-app-container-prod shahadathhs/my-ts-app:prod
+	docker run --rm --env-file -v "$$(pwd)/logs:/app/logs" .env -p 5000:3000 --name ts-app-container-prod shahadathhs/my-ts-app:prod
+
+# === Run (Named Volume) ===
+run-latest-volume:
+	docker run --env-file .env -v ts-app-logs-latest:/app/logs -p 5000:3000 --name ts-app-container-latest shahadathhs/my-ts-app:latest
+
+run-prod-volume:
+	docker run --env-file .env -v ts-app-logs-prod:/app/logs -p 5000:3000 --name ts-app-container-prod shahadathhs/my-ts-app:prod
+
+run-temp-latest-volume:
+	docker run --rm --env-file .env -v ts-app-logs-latest:/app/logs -p 5000:3000 --name ts-app-container-latest shahadathhs/my-ts-app:latest
+
+run-temp-prod-volume:
+	docker run --rm --env-file .env -v ts-app-logs-prod:/app/logs -p 5000:3000 --name ts-app-container-prod shahadathhs/my-ts-app:prod
 
 # === Start ===
 start-latest:
@@ -81,6 +108,18 @@ rebuild-prod:
 	make build-prod
 	make run-prod
 
+rebuild-latest-volume:
+	make stop-latest
+	make remove-container-latest
+	make build-latest
+	make run-latest-volume
+
+rebuild-prod-volume:
+	make stop-prod
+	make remove-container-prod
+	make build-prod
+	make run-prod-volume
+
 # === Logs ===
 logs-follow-latest:
 	docker logs -f ts-app-container-latest
@@ -104,6 +143,7 @@ check-env:
 prune-all:
 	docker container prune -f
 	docker image prune -f
+	docker volume prune -f
 
 clean-hard:
 	-docker stop ts-app-container-latest
@@ -112,10 +152,11 @@ clean-hard:
 	-docker rm ts-app-container-prod
 	-docker rmi shahadathhs/my-ts-app:latest
 	-docker rmi shahadathhs/my-ts-app:prod
-	-docker container prune -f
-	-docker image prune -f
+	docker container prune -f
+	docker image prune -f
+	docker volume prune -f
 
-# === View Images & Containers ===
+# === View Volume, Images & Containers ===
 view-containers:
 	docker ps -a
 
@@ -124,3 +165,6 @@ view-running:
 
 view-images:
 	docker images
+
+view-volumes:
+	docker volume ls
