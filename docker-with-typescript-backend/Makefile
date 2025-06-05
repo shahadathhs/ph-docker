@@ -106,11 +106,21 @@ prune-all:
 	docker image prune -f
 
 clean-hard:
-	docker stop ts-app-container-latest
-	docker stop ts-app-container-prod
-	docker rm ts-app-container-latest
-	docker rm ts-app-container-prod
-	docker rmi shahadathhs/my-ts-app:latest
-	docker rmi shahadathhs/my-ts-app:prod
-	docker container prune -f
-	docker image prune -f
+	-docker stop ts-app-container-latest
+	-docker stop ts-app-container-prod
+	-docker rm ts-app-container-latest
+	-docker rm ts-app-container-prod
+	-docker rmi shahadathhs/my-ts-app:latest
+	-docker rmi shahadathhs/my-ts-app:prod
+	-docker container prune -f
+	-docker image prune -f
+
+# === View Images & Containers ===
+view-containers:
+	docker ps -a
+
+view-running:
+	docker ps
+
+view-images:
+	docker images
