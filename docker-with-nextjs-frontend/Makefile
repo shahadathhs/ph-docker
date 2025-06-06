@@ -20,6 +20,33 @@ push-prod:
 	docker push shahadathhs/my-next-app:prod
 
 # === Run ===
+run-latest:
+	docker run --env-file .env \
+		-p 3000:3000 \
+		--name next-app-container-latest \
+		--network ph-docker-network \
+		shahadathhs/my-next-app:latest
+
+run-prod:
+	docker run --env-file .env \
+		-p 3000:3000 \
+		--name next-app-container-prod \
+		--network ph-docker-network \
+		shahadathhs/my-next-app:prod
+
+run-temp-latest:
+	docker run --rm --env-file .env \
+		-p 3000:3000 \
+		--name next-app-container-latest \
+		--network ph-docker-network \
+		shahadathhs/my-next-app:latest
+
+run-temp-prod:
+	docker run --rm --env-file .env \
+		-p 3000:3000 \
+		--name next-app-container-prod \
+		--network ph-docker-network \
+		shahadathhs/my-next-app:prod
 
 # === Start ===
 start-latest:
