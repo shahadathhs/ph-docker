@@ -1,3 +1,7 @@
+# === Logs ===
+prepare-logs:
+	mkdir -p logs
+
 # === Build ===
 build-latest:
 	docker build -t shahadathhs/my-ts-app:latest .
@@ -34,10 +38,10 @@ run-prod:
 	docker run --env-file .env -v "$$(pwd)/logs:/app/logs" -p 5000:3000 --name ts-app-container-prod shahadathhs/my-ts-app:prod
 
 run-temp-latest:
-	docker run --rm --env-file -v "$$(pwd)/logs:/app/logs" .env -p 5000:3000 --name ts-app-container-latest shahadathhs/my-ts-app:latest
+	docker run --rm --env-file .env -v "$$(pwd)/logs:/app/logs" -p 5000:3000 --name ts-app-container-latest shahadathhs/my-ts-app:latest
 
 run-temp-prod:
-	docker run --rm --env-file -v "$$(pwd)/logs:/app/logs" .env -p 5000:3000 --name ts-app-container-prod shahadathhs/my-ts-app:prod
+	docker run --rm --env-file .env -v "$$(pwd)/logs:/app/logs" -p 5000:3000 --name ts-app-container-prod shahadathhs/my-ts-app:prod
 
 # === Run (Named Volume) ===
 run-latest-volume:

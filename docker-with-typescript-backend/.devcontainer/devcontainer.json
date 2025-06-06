@@ -1,0 +1,42 @@
+{
+  "name": "ts-container",
+  "image": "shahadathhs/my-ts-app:latest",
+  "workspaceFolder": "/app",
+  "mounts": [
+    // * Bind mount the local project folder (similar to: -v "$$(pwd)/logs:/app/logs")
+    "source=${localWorkspaceFolder},target=/app,type=bind",
+
+    // * Named volume for logs (similar to: -v ts-app-logs-latest:/app/logs)
+    "source=ts-app-logs-latest,target=/app/logs,type=volume",
+
+    // * Anonymous volume for node_modules (similar to: -v //app/node_modules)
+    "target=/app/node_modules,type=volume"
+  ],
+  "runArgs": [
+    "--rm",
+    "--name",
+    "ts-app-container-latest",
+    "--env-file",
+    ".env",
+    "-p",
+    "5000:3000"
+  ],
+  // * Setup pnpm and install dependencies
+  "postCreateCommand": "corepack enable && corepack prepare pnpm@latest --activate && pnpm install",
+  "features": {
+    // * Node.js version & pnpm pre-installed via Dev Container Features
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "22",
+      "installCorepack": true
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "antfu.pnpm"
+      ]
+    }
+  }
+}
