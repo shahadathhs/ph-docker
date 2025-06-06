@@ -67,7 +67,7 @@ remove-volume-prod:
 run-latest:
 	docker run --env-file .env \
 		-v "$$(pwd)/logs:/app/logs" \
-		-p 5000:3000 \
+		-p 5000:4000 \
 		--name ts-app-container-latest \
 		--network ph-docker-network \
 		shahadathhs/my-ts-app:latest
@@ -75,7 +75,7 @@ run-latest:
 run-prod:
 	docker run --env-file .env \
 		-v "$$(pwd)/logs:/app/logs" \
-		-p 5000:3000 \
+		-p 5000:4000 \
 		--name ts-app-container-prod \
 		--network ph-docker-network \
 		shahadathhs/my-ts-app:prod
@@ -83,7 +83,7 @@ run-prod:
 run-temp-latest:
 	docker run --rm --env-file .env \
 		-v "$$(pwd)/logs:/app/logs" \
-		-p 5000:3000 \
+		-p 5000:4000 \
 		--name ts-app-container-latest \
 		--network ph-docker-network \
 		shahadathhs/my-ts-app:latest
@@ -91,7 +91,7 @@ run-temp-latest:
 run-temp-prod:
 	docker run --rm --env-file .env \
 		-v "$$(pwd)/logs:/app/logs" \
-		-p 5000:3000 \
+		-p 5000:4000 \
 		--name ts-app-container-prod \
 		--network ph-docker-network \
 		shahadathhs/my-ts-app:prod
@@ -100,7 +100,7 @@ run-temp-prod:
 run-latest-volume:
 	docker run --env-file .env \
 		-v ts-app-logs-latest:/app/logs \
-		-p 5000:3000 \
+		-p 5000:4000 \
 		--name ts-app-container-latest \
 		--network ph-docker-network \
 		shahadathhs/my-ts-app:latest
@@ -108,7 +108,7 @@ run-latest-volume:
 run-prod-volume:
 	docker run --env-file .env \
 		-v ts-app-logs-prod:/app/logs \
-		-p 5000:3000 \
+		-p 5000:4000 \
 		--name ts-app-container-prod \
 		--network ph-docker-network \
 		shahadathhs/my-ts-app:prod
@@ -116,7 +116,7 @@ run-prod-volume:
 run-temp-latest-volume:
 	docker run --rm --env-file .env \
 		-v ts-app-logs-latest:/app/logs \
-		-p 5000:3000 \
+		-p 5000:4000 \
 		--name ts-app-container-latest \
 		--network ph-docker-network \
 		shahadathhs/my-ts-app:latest
@@ -124,7 +124,7 @@ run-temp-latest-volume:
 run-temp-prod-volume:
 	docker run --rm --env-file .env \
 		-v ts-app-logs-prod:/app/logs \
-		-p 5000:3000 \
+		-p 5000:4000 \
 		--name ts-app-container-prod \
 		--network ph-docker-network \
 		shahadathhs/my-ts-app:prod

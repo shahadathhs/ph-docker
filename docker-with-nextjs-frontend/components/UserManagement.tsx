@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useFormState } from 'react-dom';
+import { useActionState, useEffect, useState } from 'react';
 import { createUser } from '../actions';
 import AddUserModal from './AddUserModal';
 import Table from './Table';
@@ -15,17 +14,14 @@ const UserManagement = () => {
   const [error, setError] = useState<string | null>(null); // optional: error state
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [state, formAction] = useFormState(createUser, initialState);
+  const [state, formAction] = useActionState(createUser, initialState);
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
-        next: {
-          tags: ['users'],
-        },
-      });
-      const { data } = await res.json();
-      setUsers(data);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`);
+      const body = await res.json();
+      console.log(body);
+      setUsers(body?.data);
     } catch (err: any) {
       console.error('Error fetching users:', err);
       setError('Failed to fetch users');

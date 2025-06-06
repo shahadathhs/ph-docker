@@ -31,7 +31,7 @@ const Modal: React.FC<ModalProps> = ({
           &times; {/* Unicode character for the cross icon */}
         </button>
 
-        <h2 className="text-2xl font-bold mb-4 text-white">{title}</h2>
+        <h2 className="text-2xl font-bold mb-4">{title}</h2>
 
         {/* Dynamic Content */}
         <div className="mb-4">{children}</div>

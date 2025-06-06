@@ -7,7 +7,7 @@ const AddUserModal = ({ isOpen, onClose, formAction }: any) => {
     <Modal isOpen={isOpen} onClose={onClose} title="Add User">
       <form action={formAction} id="addUserForm">
         <div className="mb-4">
-          <label className="block text-white mb-2" htmlFor="email">
+          <label className="block mb-2" htmlFor="email">
             Email
           </label>
           <input
@@ -19,7 +19,7 @@ const AddUserModal = ({ isOpen, onClose, formAction }: any) => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-white mb-2" htmlFor="email">
+          <label className="block mb-2" htmlFor="email">
             Password
           </label>
           <div className="mb-4">
@@ -38,7 +38,7 @@ const AddUserModal = ({ isOpen, onClose, formAction }: any) => {
           ></input>
         </div>
 
-        <ActionSubmitButton>add</ActionSubmitButton>
+        <ActionSubmitButton>Add</ActionSubmitButton>
       </form>
     </Modal>
   );

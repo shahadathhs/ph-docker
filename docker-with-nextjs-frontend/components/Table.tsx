@@ -56,7 +56,7 @@ const Table: React.FC<TableBodyProps> = ({ user }) => {
             className="w-24 h-24 rounded-full mr-4 border-2 border-white"
           />
           <div>
-            <p className="text-lg font-semibold text-white">{user.name}</p>
+            <p className="text-lg font-semibold">{user.name}</p>
             <p className="text-gray-300">{user.email}</p>
           </div>
         </div>
