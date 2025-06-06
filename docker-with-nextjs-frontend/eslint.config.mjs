@@ -6,7 +6,6 @@ import tseslint from "typescript-eslint";
 
 export default defineConfig([
   globalIgnores(["node_modules/*", ".next/*"]),
-
   {
     files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
     languageOptions: {
@@ -19,9 +18,6 @@ export default defineConfig([
       js,
       react: pluginReact,
     },
-    rules: {
-      "react/react-in-jsx-scope": "off",
-    },
   },
 
   // TypeScript config
@@ -32,8 +28,11 @@ export default defineConfig([
     ...pluginReact.configs.flat.recommended,
     settings: {
       react: {
-        version: "detect", // ✅ Fixes the version warning
+        version: "detect",
       },
+    },
+    rules: {
+      "react/react-in-jsx-scope": "off",
     },
   },
 ]);

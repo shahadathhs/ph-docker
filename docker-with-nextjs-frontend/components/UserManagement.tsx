@@ -1,35 +1,57 @@
-/* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { useFormState } from "react-dom";
-import { createUser } from "../actions";
-import AddUserModal from "./AddUserModal";
-import Table from "./Table";
+import { useEffect, useState } from 'react';
+import { useFormState } from 'react-dom';
+import { createUser } from '../actions';
+import AddUserModal from './AddUserModal';
+import Table from './Table';
 
-const UserManagement = ({ users }: any) => {
-  const initialState = {
-    message: "",
-  };
+const UserManagement = () => {
+  const initialState = { message: '' };
+
+  const [users, setUsers] = useState<any[]>([]); // state for user data
+  const [isLoading, setIsLoading] = useState(true); // optional: loading state
+  const [error, setError] = useState<string | null>(null); // optional: error state
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [state, formAction] = useFormState(createUser, initialState);
-  const handleOpenAddUserModal = () => {
-    setIsModalOpen(true);
+
+  const fetchUsers = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
+        next: {
+          tags: ['users'],
+        },
+      });
+      const { data } = await res.json();
+      setUsers(data);
+    } catch (err: any) {
+      console.error('Error fetching users:', err);
+      setError('Failed to fetch users');
+    } finally {
+      setIsLoading(false);
+    }
   };
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
   useEffect(() => {
     handleCloseModal();
     console.log(state);
   }, [state]);
+
+  const handleOpenAddUserModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
 
   return (
     <div className="flex flex-col h-screen w-screen bg-black">
       <h1 className="text-4xl font-extrabold text-center text-white mt-6">
         User Management Page
       </h1>
+
       <div className="flex-grow flex justify-center items-center">
         <div className="card">
           <button
@@ -38,24 +60,32 @@ const UserManagement = ({ users }: any) => {
           >
             Add User
           </button>
+
           <p aria-live="polite" className="text-orange-500">
             {state?.message}
           </p>
 
-          <table className="min-w-full text-white">
-            <thead>
-              <tr className="bg-blue-900 text-white shadow-md">
-                <th className="py-4 px-6 text-left text-lg">Profile Photo</th>
-                <th className="py-4 px-6 text-left text-lg">Email</th>
-                <th className="py-4 px-6 text-left text-lg">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((user: any) => (
-                <Table key={user._id} user={user} />
-              ))}
-            </tbody>
-          </table>
+          {isLoading ? (
+            <p className="text-white">Loading users...</p>
+          ) : error ? (
+            <p className="text-red-500">{error}</p>
+          ) : (
+            <table className="min-w-full text-white">
+              <thead>
+                <tr className="bg-blue-900 text-white shadow-md">
+                  <th className="py-4 px-6 text-left text-lg">Profile Photo</th>
+                  <th className="py-4 px-6 text-left text-lg">Email</th>
+                  <th className="py-4 px-6 text-left text-lg">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users.map((user: any) => (
+                  <Table key={user._id} user={user} />
+                ))}
+              </tbody>
+            </table>
+          )}
+
           <span className="top" />
           <span className="bottom" />
           <span className="right" />
@@ -63,7 +93,6 @@ const UserManagement = ({ users }: any) => {
         </div>
       </div>
 
-      {/* Add User Modal */}
       <AddUserModal
         state={state}
         formAction={formAction}

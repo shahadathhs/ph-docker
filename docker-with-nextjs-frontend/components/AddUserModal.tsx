@@ -1,4 +1,3 @@
-/* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import ActionSubmitButton from "./ActionSubmitButton";
 import Modal from "./Modal";
