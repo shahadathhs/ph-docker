@@ -8,5 +8,6 @@ export default async function Home() {
   });
   const { data } = await users.json();
 
+  // eslint-disable-next-line react/react-in-jsx-scope
   return <UserManagement users={data} />;
 }

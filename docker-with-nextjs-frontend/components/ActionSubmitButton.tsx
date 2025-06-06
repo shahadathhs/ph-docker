@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import React from "react";
 import { useFormStatus } from "react-dom";
 
-const ActionSubmitButton = ({ children }: any) => {
+const ActionSubmitButton = ({ children }: { children: React.ReactNode }) => {
   const { pending } = useFormStatus();
   return (
     <button
