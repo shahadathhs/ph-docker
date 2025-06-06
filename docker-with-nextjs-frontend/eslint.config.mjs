@@ -6,20 +6,34 @@ import tseslint from "typescript-eslint";
 
 export default defineConfig([
   globalIgnores(["node_modules/*", ".next/*"]),
+
   {
     files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
-    plugins: { js },
-    extends: ["js/recommended"],
-  },
-  {
-    files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
-    languageOptions: { globals: { ...globals.browser, ...globals.node } },
-  },
-  {
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
+    },
+    plugins: {
+      js,
+      react: pluginReact,
+    },
     rules: {
       "react/react-in-jsx-scope": "off",
     },
   },
-  tseslint.configs.recommended,
-  pluginReact.configs.flat.recommended,
+
+  // TypeScript config
+  ...tseslint.configs.recommended,
+
+  // React config
+  {
+    ...pluginReact.configs.flat.recommended,
+    settings: {
+      react: {
+        version: "detect", // ✅ Fixes the version warning
+      },
+    },
+  },
 ]);
