@@ -1,13 +1,14 @@
-import cors from 'cors'
-import express, { Application, Request, Response } from 'express'
-import path from 'path'
-import { errorLogger } from './app/helpers/logger'
-import appRoutes from './app/routes/routes'
+import cors from 'cors';
+import express, { Application, Request, Response } from 'express';
+import path from 'path';
+import { errorLogger } from './app/helpers/logger';
+import appRoutes from './app/routes/routes';
+import { catchAsync } from './app/utils/catchAsync';
 
-const app: Application = express()
+const app: Application = express();
 
 // * Serve static files like CSS
-app.use(express.static(path.join(__dirname, '../public')))
+app.use(express.static(path.join(__dirname, '../public')));
 
 // * cors
 app.use(
@@ -15,11 +16,11 @@ app.use(
     credentials: true,
     origin: 'http://localhost:3000',
   }),
-)
+);
 
 // * Parsers
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // * Welcome route
 app.get('/', (req: Request, res: Response) => {
@@ -34,29 +35,36 @@ app.get('/', (req: Request, res: Response) => {
         <p>Go to <a href="/logs/errors">Error Logs</a> or <a href="/logs/successes">Success Logs</a>.</p>
       </body>
     </html>
-  `)
-})
+  `);
+});
+
+// * debug
+app.get('/debug', (req: Request, res: Response) => {
+  console.info('DEBUG', typeof res.send);
+  res.send('OK');
+});
 
 // * forced error route
 app.get('/error', () => {
-  throw new Error('This is a forced error!')
-})
+  throw new Error('This is a forced error!');
+});
 
 // * random route
-app.get('/todos', async (req: Request, res: Response) => {
-  const response = await fetch('https://jsonplaceholder.typicode.com/todos')
-  // const response = await fetch("http://ts-docker-container:5000/api/v1/users");
-  const todos = await response.json()
-  res.status(200).json(todos)
-})
+app.get(
+  '/todos',
+  catchAsync(async (req: Request, res: Response) => {
+    const response = await fetch('https://jsonplaceholder.typicode.com/todos');
+    const todos = await response.json();
+    res.status(200).json(todos);
+  }),
+);
 
 // * Routes
-app.use('/', appRoutes)
+app.use('/', appRoutes);
 
 // * Error handler
 app.use((err: Error, req: Request, res: Response) => {
-  console.error(err)
-  errorLogger.error(err)
+  errorLogger.error(err);
 
   res.status(500).send(`
     <html>
@@ -70,8 +78,8 @@ app.use((err: Error, req: Request, res: Response) => {
         <a href="/">Back to Home</a>
       </body>
     </html>
-  `)
-})
+  `);
+});
 
 // * Not Found handler
 app.use((req: Request, res: Response) => {
@@ -87,7 +95,7 @@ app.use((req: Request, res: Response) => {
         <a href="/">Back to Home</a>
       </body>
     </html>
-  `)
-})
+  `);
+});
 
-export default app
+export default app;
