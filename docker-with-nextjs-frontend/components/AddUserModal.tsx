@@ -1,46 +1,62 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import ActionSubmitButton from "./ActionSubmitButton";
-import Modal from "./Modal";
+'use client';
 
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
+import ActionSubmitButton from './ActionSubmitButton';
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const AddUserModal = ({ isOpen, onClose, formAction }: any) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Add User">
-      <form action={formAction} id="addUserForm">
-        <div className="mb-4">
-          <label className="block mb-2" htmlFor="email">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email" // Important for FormData
-            className="border rounded w-full py-2 px-3 text-black"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block mb-2" htmlFor="email">
-            Password
-          </label>
-          <div className="mb-4">
-            <input
-              type="password"
-              id="password"
-              name="password" // Important for FormData
-              className="border rounded w-full py-2 px-3 text-black"
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>Add User</DialogTitle>
+        </DialogHeader>
+
+        <form action={formAction} id="addUserForm" className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter email"
               required
             />
           </div>
-          <input
-            name="image"
-            type="file"
-            className="border rounded w-full py-2 px-3 text-black "
-          ></input>
-        </div>
 
-        <ActionSubmitButton>Add</ActionSubmitButton>
-      </form>
-    </Modal>
+          <div className="space-y-2">
+            <Label htmlFor="password">Password</Label>
+            <Input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter password"
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="image">Profile Image</Label>
+            <Input type="file" id="image" name="image" accept="image/*" />
+          </div>
+
+          <Separator />
+
+          <div className="pt-2">
+            <ActionSubmitButton>Add</ActionSubmitButton>
+          </div>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 };
+
 export default AddUserModal;
