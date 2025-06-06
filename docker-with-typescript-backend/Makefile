@@ -4,10 +4,10 @@ prepare-logs:
 
 # === Network ===
 create-network:
-	docker network create ts-app-network
+	docker network create ph-docker-network
 
 remove-network:
-	docker network rm ts-app-network || true
+	docker network rm ph-docker-network || true
 
 # === MongoDB Volume ===
 create-volume-mongo:
@@ -23,7 +23,10 @@ pull-mongo:
 run-mongo:
 	docker run -d --rm \
 		--name mongodb \
-		--network ts-app-network \
+		--network ph-docker-network \
+		-v mongodb-data:/data/db \
+		-e MONGO_INITDB_ROOT_USERNAME=root \
+		-e MONGO_INITDB_ROOT_PASSWORD=example \
 		mongo:latest
 
 stop-mongo:
@@ -66,7 +69,7 @@ run-latest:
 		-v "$$(pwd)/logs:/app/logs" \
 		-p 5000:3000 \
 		--name ts-app-container-latest \
-		--network ts-app-network \
+		--network ph-docker-network \
 		shahadathhs/my-ts-app:latest
 
 run-prod:
@@ -74,7 +77,7 @@ run-prod:
 		-v "$$(pwd)/logs:/app/logs" \
 		-p 5000:3000 \
 		--name ts-app-container-prod \
-		--network ts-app-network \
+		--network ph-docker-network \
 		shahadathhs/my-ts-app:prod
 
 run-temp-latest:
@@ -82,7 +85,7 @@ run-temp-latest:
 		-v "$$(pwd)/logs:/app/logs" \
 		-p 5000:3000 \
 		--name ts-app-container-latest \
-		--network ts-app-network \
+		--network ph-docker-network \
 		shahadathhs/my-ts-app:latest
 
 run-temp-prod:
@@ -90,7 +93,7 @@ run-temp-prod:
 		-v "$$(pwd)/logs:/app/logs" \
 		-p 5000:3000 \
 		--name ts-app-container-prod \
-		--network ts-app-network \
+		--network ph-docker-network \
 		shahadathhs/my-ts-app:prod
 
 # === Run (Named Volume) ===
@@ -99,7 +102,7 @@ run-latest-volume:
 		-v ts-app-logs-latest:/app/logs \
 		-p 5000:3000 \
 		--name ts-app-container-latest \
-		--network ts-app-network \
+		--network ph-docker-network \
 		shahadathhs/my-ts-app:latest
 
 run-prod-volume:
@@ -107,7 +110,7 @@ run-prod-volume:
 		-v ts-app-logs-prod:/app/logs \
 		-p 5000:3000 \
 		--name ts-app-container-prod \
-		--network ts-app-network \
+		--network ph-docker-network \
 		shahadathhs/my-ts-app:prod
 
 run-temp-latest-volume:
@@ -115,7 +118,7 @@ run-temp-latest-volume:
 		-v ts-app-logs-latest:/app/logs \
 		-p 5000:3000 \
 		--name ts-app-container-latest \
-		--network ts-app-network \
+		--network ph-docker-network \
 		shahadathhs/my-ts-app:latest
 
 run-temp-prod-volume:
@@ -123,7 +126,7 @@ run-temp-prod-volume:
 		-v ts-app-logs-prod:/app/logs \
 		-p 5000:3000 \
 		--name ts-app-container-prod \
-		--network ts-app-network \
+		--network ph-docker-network \
 		shahadathhs/my-ts-app:prod
 
 # === Start ===
