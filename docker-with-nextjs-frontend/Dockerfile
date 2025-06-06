@@ -7,12 +7,10 @@ WORKDIR /app
 COPY package.json .
 COPY pnpm-lock.yaml .
 
-# VOLUME ["/app/logs"]
-
 RUN pnpm install
 
 COPY . .
 
-EXPOSE 4000
+EXPOSE 3000
 
 CMD ["pnpm", "run", "dev"]
