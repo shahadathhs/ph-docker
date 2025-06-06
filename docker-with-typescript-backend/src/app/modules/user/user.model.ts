@@ -1,6 +1,5 @@
-/* eslint-disable no-useless-escape */
-import { Schema, model } from 'mongoose';
-import { TUser } from './user.interface';
+import { Schema, model } from 'mongoose'
+import { TUser } from './user.interface'
 
 const userSchema = new Schema<TUser>(
   {
@@ -10,7 +9,7 @@ const userSchema = new Schema<TUser>(
       unique: true,
       //validate email
       match: [
-        /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/,
+        /^([\w-\\.]+@([\w-]+\.)+[\w-]{2,4})?$/,
         'Please fill a valid email address',
       ],
     },
@@ -27,7 +26,7 @@ const userSchema = new Schema<TUser>(
   {
     timestamps: true,
     virtuals: true,
-  }
-);
+  },
+)
 
-export const User = model<TUser>('User', userSchema);
+export const User = model<TUser>('User', userSchema)

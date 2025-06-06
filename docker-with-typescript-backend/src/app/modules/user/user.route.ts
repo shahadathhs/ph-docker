@@ -1,15 +1,16 @@
-import express from "express";
-import { multerUpload } from "../../config/multer.config";
-import { UserControllers } from "./user.controller";
+import express from 'express'
 
-const router = express.Router();
+import { multerUpload } from '@/app/config/multer.config'
+import { UserControllers } from './user.controller'
 
-export const UserRoutes = router;
+const router = express.Router()
+
+export const UserRoutes = router
 
 router.post(
-  "/create-user",
-  multerUpload.single("image"),
-  UserControllers.userRegister
-);
-router.get("/", UserControllers.getAllUsers);
-router.get("/:id", UserControllers.getSingleUser);
+  '/create-user',
+  multerUpload.single('image'),
+  UserControllers.userRegister,
+)
+router.get('/', UserControllers.getAllUsers)
+router.get('/:id', UserControllers.getSingleUser)

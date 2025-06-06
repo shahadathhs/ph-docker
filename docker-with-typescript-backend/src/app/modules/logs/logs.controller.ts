@@ -1,7 +1,7 @@
+import { listLogFiles } from "@/app/helpers/listLogFiles";
 import { Request, Response } from "express";
 import fs from "fs";
 import path from "path";
-import { listLogFiles } from "../../helpers/listLogFiles";
 
 const getAllErrorLogs = async (req: Request, res: Response) => {
   const errorFiles = listLogFiles("errors");
@@ -13,7 +13,7 @@ const getAllErrorLogs = async (req: Request, res: Response) => {
       .map(
         (file) => `
       <li><a href="/logs/errors/${file}">${file}</a></li>
-    `
+    `,
       )
       .join("");
 
@@ -44,7 +44,7 @@ const getAllSuccessLogs = async (req: Request, res: Response) => {
       .map(
         (file) => `
       <li><a href="/logs/successes/${file}">${file}</a></li>
-    `
+    `,
       )
       .join("");
 
@@ -71,7 +71,7 @@ const getSpecificErrorLog = async (req: Request, res: Response) => {
     "logs",
     "winston",
     "errors",
-    logFile
+    logFile,
   );
 
   if (fs.existsSync(logPath)) {
@@ -130,7 +130,7 @@ const getSpecificSuccessLog = async (req: Request, res: Response) => {
     "logs",
     "winston",
     "successes",
-    logFile
+    logFile,
   );
 
   if (fs.existsSync(logPath)) {

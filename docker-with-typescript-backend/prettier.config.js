@@ -1,9 +1,7 @@
 export default {
   singleQuote: true,
-  trailingComma: 'all',
   tabWidth: 2,
   semi: false,
-  printWidth: 100,
+  printWidth: 80,
   bracketSpacing: true,
-  arrowParens: 'avoid',
 }
