@@ -1,17 +1,27 @@
+import cors from "cors";
 import express, { Application, Request, Response } from "express";
 import path from "path";
 import { errorLogger } from "./app/helpers/logger";
-import appRoutes from "./app/routes";
+import appRoutes from "./app/routes/routes";
 
 const app: Application = express();
 
-// Serve static files like CSS
-app.use(express.static(path.join(__dirname, "../public"))); // Adjusted path
+// * Serve static files like CSS
+app.use(express.static(path.join(__dirname, "../public")));
 
-// Parsers
+// * cors
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:3000",
+  })
+);
+
+// * Parsers
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Welcome route
+// * Welcome route
 app.get("/", (req: Request, res: Response) => {
   res.status(200).send(`
    <html>
@@ -27,14 +37,23 @@ app.get("/", (req: Request, res: Response) => {
   `);
 });
 
+// * forced error route
 app.get("/error", (req: Request, res: Response) => {
   throw new Error("This is a forced error!");
 });
 
-//Logger Routes
+// * random route
+app.get("/todos", async (req: Request, res: Response) => {
+  const response = await fetch("https://jsonplaceholder.typicode.com/todos");
+  // const response = await fetch("http://ts-docker-container:5000/api/v1/users");
+  const todos = await response.json();
+  res.status(200).json(todos);
+});
+
+// * Routes
 app.use("/", appRoutes);
 
-// Error handler
+// * Error handler
 app.use((err: Error, req: Request, res: Response, next: any) => {
   console.error(err);
   errorLogger.error(err);
@@ -54,7 +73,7 @@ app.use((err: Error, req: Request, res: Response, next: any) => {
   `);
 });
 
-// Not Found handler
+// * Not Found handler
 app.use((req: Request, res: Response) => {
   res.status(404).send(`
     <html>
