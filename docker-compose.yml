@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   mongodb:
     image: mongo:latest
@@ -11,7 +9,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME:-admin}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:-123456}
     volumes:
-      - ./data/db:/data/db
+      - ./docker-with-typescript-backend/data/db:/data/db
 
   backend:
     image: shahadathhs/my-ts-app:latest
@@ -20,17 +18,17 @@ services:
     depends_on:
       - mongodb
     build:
-      context: ./docker-with-typescipt-backend
+      context: ./docker-with-typescript-backend
       dockerfile: Dockerfile
     networks:
       - ph-docker-network
     env_file:
-      - backend/.env
+      - docker-with-typescript-backend/.env
     ports:
       - "4000:4000"
     volumes:
-      - ./docker-with-typescipt-backend:/app # * for live-reload
-      - ./logs:/app/logs
+      - ./docker-with-typescript-backend:/app # * for live-reload
+      - ./docker-with-typescript-backend/logs:/app/logs
 
   frontend:
     image: shahadathhs/my-next-app:latest
@@ -44,7 +42,7 @@ services:
     networks:
       - ph-docker-network
     env_file:
-      - frontend/.env.local
+      - docker-with-nextjs-frontend/.env.local
     ports:
       - "3000:3000"
     volumes:
