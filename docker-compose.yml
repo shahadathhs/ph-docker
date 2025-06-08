@@ -29,6 +29,7 @@ services:
     volumes:
       - ./docker-with-typescript-backend:/app # * for live-reload
       - ./docker-with-typescript-backend/logs:/app/logs
+      - /app/node_modules
 
   frontend:
     image: shahadathhs/my-next-app:latest
