@@ -24,9 +24,9 @@ run-mongo:
 	docker run -d --rm \
 		--name mongodb \
 		--network ph-docker-network \
-		-v mongodb-data:/data/db \
-		-e MONGO_INITDB_ROOT_USERNAME=root \
-		-e MONGO_INITDB_ROOT_PASSWORD=example \
+		-v "$$(pwd)/data/db:/data/db" \
+		-e MONGO_INITDB_ROOT_USERNAME=admin \
+		-e MONGO_INITDB_ROOT_PASSWORD=123456 \
 		mongo:latest
 
 stop-mongo:
