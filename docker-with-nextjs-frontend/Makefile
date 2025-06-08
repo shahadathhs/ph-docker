@@ -24,14 +24,20 @@ run-latest:
 	docker run --env-file .env.local \
 		-p 3000:3000 \
 		--name next-app-container-latest \
+		-v "$$(pwd)":/app \
+		-v /app/node_modules \
 		--network ph-docker-network \
+		-e WATCHPACK_POLLING=true \
 		shahadathhs/my-next-app:latest
 
 run-prod:
 	docker run --env-file .env.local \
 		-p 3000:3000 \
 		--name next-app-container-prod \
+		-v "$$(pwd)":/app \
+		-v /app/node_modules \
 		--network ph-docker-network \
+		-e WATCHPACK_POLLING=true \
 		shahadathhs/my-next-app:prod
 
 run-temp-latest:
@@ -48,7 +54,10 @@ run-temp-prod:
 	docker run --rm --env-file .env.local \
 		-p 3000:3000 \
 		--name next-app-container-prod \
+		-v "$$(pwd)":/app \
+		-v /app/node_modules \
 		--network ph-docker-network \
+		-e WATCHPACK_POLLING=true \
 		shahadathhs/my-next-app:prod
 
 # === Start ===

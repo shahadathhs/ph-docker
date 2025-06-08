@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: unless-stopped
+    networks:
+      - ph-docker-network
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME:-admin}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:-123456}
+    volumes:
+      - ./data/db:/data/db
+
+  backend:
+    image: shahadathhs/my-ts-app:latest
+    container_name: ts-app-container-latest
+    restart: unless-stopped
+    depends_on:
+      - mongodb
+    build:
+      context: ./docker-with-typescipt-backend
+      dockerfile: Dockerfile
+    networks:
+      - ph-docker-network
+    env_file:
+      - backend/.env
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./docker-with-typescipt-backend:/app # * for live-reload
+      - ./logs:/app/logs
+
+  frontend:
+    image: shahadathhs/my-next-app:latest
+    container_name: next-app-container-latest
+    restart: unless-stopped
+    depends_on:
+      - backend
+    build:
+      context: ./docker-with-nextjs-frontend
+      dockerfile: Dockerfile
+    networks:
+      - ph-docker-network
+    env_file:
+      - frontend/.env.local
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./docker-with-nextjs-frontend:/app # * for live-reload
+      - /app/node_modules
+
+networks:
+  ph-docker-network:
+    driver: bridge
