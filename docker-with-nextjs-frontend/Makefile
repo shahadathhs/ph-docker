@@ -21,28 +21,31 @@ push-prod:
 
 # === Run ===
 run-latest:
-	docker run --env-file .env \
+	docker run --env-file .env.local \
 		-p 3000:3000 \
 		--name next-app-container-latest \
 		--network ph-docker-network \
 		shahadathhs/my-next-app:latest
 
 run-prod:
-	docker run --env-file .env \
+	docker run --env-file .env.local \
 		-p 3000:3000 \
 		--name next-app-container-prod \
 		--network ph-docker-network \
 		shahadathhs/my-next-app:prod
 
 run-temp-latest:
-	docker run --rm --env-file .env \
+	docker run --rm --env-file .env.local \
 		-p 3000:3000 \
 		--name next-app-container-latest \
+		-v "$$(pwd)":/app \
+		-v /app/node_modules \
 		--network ph-docker-network \
+		-e WATCHPACK_POLLING=true \
 		shahadathhs/my-next-app:latest
 
 run-temp-prod:
-	docker run --rm --env-file .env \
+	docker run --rm --env-file .env.local \
 		-p 3000:3000 \
 		--name next-app-container-prod \
 		--network ph-docker-network \
@@ -132,8 +135,8 @@ exec-shell-prod:
 
 # === Env Check ===
 check-env:
-	@echo "Printing .env variables:"
-	@cat .env
+	@echo "Printing .env.local variables:"
+	@cat .env.local
 
 # === Prune & Clean ===
 prune-all:
