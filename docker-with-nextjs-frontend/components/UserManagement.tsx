@@ -9,10 +9,13 @@ import Table from './Table';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useApiUrl } from '@/hook/useApiUrl';
+import { CreateUserResponse } from '@/types/create-user';
 import { Loader2 } from 'lucide-react';
 
 const UserManagement = () => {
-  const initialState = { message: '' };
+  const apiUrl = useApiUrl();
+  const initialState: CreateUserResponse = { message: '', apiUrl };
 
   const [users, setUsers] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -23,7 +26,7 @@ const UserManagement = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`);
+      const res = await fetch(`${apiUrl}/users`);
       const body = await res.json();
       setUsers(body?.data);
     } catch (err: any) {
