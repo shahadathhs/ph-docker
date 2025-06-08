@@ -12,8 +12,8 @@ up:
 	$(COMPOSE) -p $(PROJECT_NAME) -f $(DOCKER_COMPOSE_FILE) up -d
 
 down:
-	@echo "🛑 Stopping and removing all containers..."
-	$(COMPOSE) -p $(PROJECT_NAME) -f $(DOCKER_COMPOSE_FILE) down
+	@echo "🛑 Stopping and removing all containers & volumes..."
+	$(COMPOSE) -p $(PROJECT_NAME) -f $(DOCKER_COMPOSE_FILE) down -v
 
 restart: down up
 
