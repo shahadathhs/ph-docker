@@ -12,7 +12,7 @@ async function main() {
 
     logger.info('Connected to database');
 
-    server = app.listen(ENVConfig.port, () => {
+    server = app.listen(Number(ENVConfig.port), '0.0.0.0', () => {
       console.info(`app is listening on port ${ENVConfig.port}`);
       logger.info(`app is listening on port ${ENVConfig.port}`);
     });

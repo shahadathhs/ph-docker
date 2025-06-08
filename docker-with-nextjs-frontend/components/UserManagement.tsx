@@ -36,7 +36,7 @@ const UserManagement = () => {
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  }, [state]);
 
   useEffect(() => {
     handleCloseModal();

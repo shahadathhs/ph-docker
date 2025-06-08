@@ -1,8 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-'use server';
-
-import { revalidateTag } from 'next/cache';
-
 interface CreateUserResponse {
   message: string;
 }
@@ -41,9 +36,9 @@ export async function createUser(
     }
 
     const data = await response.json();
-    revalidateTag('users');
     return { message: data.message };
   } catch (error) {
+    console.log(error, 'Error creating user');
     return {
       message:
         error instanceof Error ? error.message : 'Unknown error occurred',
